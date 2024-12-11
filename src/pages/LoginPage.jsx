@@ -32,8 +32,10 @@ function LoginPage() {
         <div>
           <LoggedIn />
           <button onClick={logout}>Logout</button>
+          
         </div>
       )}
+  <NavLink to="/register">Register</NavLink>
     </div>
   );
 }
