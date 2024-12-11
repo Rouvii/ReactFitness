@@ -6,11 +6,15 @@ function RootLayout() {
     <RootContainer>
       <Header>
         <Nav>
-          <Title>BIG MUSCLES NIGGER GET BIG HERE</Title>
+          <Title>FITNESS APP</Title>
           <NavLinks>
             <StyledNavLink to="/">Home</StyledNavLink>
             <StyledNavLink to="/loginPage">Login Page</StyledNavLink>
+
             <StyledNavLink to="/sessions">Sessions</StyledNavLink>
+
+            <StyledNavLink to="/exercises">Exercises</StyledNavLink>
+
           </NavLinks>
         </Nav>
       </Header>
@@ -30,7 +34,7 @@ const RootContainer = styled.div`
   margin: 0;
   padding: 0;
   background-image: url('/src/assets/image.png'); 
-  background-size: cover; 
+  background-size: center; 
   background-repeat: no-repeat; 
   background-position: center; 
   background-color: #e0dcdc;
