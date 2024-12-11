@@ -10,6 +10,11 @@ import Error404Page from "./pages/Error404Page";
 import LoginPage from "./pages/LoginPage";
 import Register from "./pages/Register";
 
+import Sessions from "./pages/Sessions";
+
+import ExercisePage from "./pages/ExercisePage";
+
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
@@ -17,6 +22,11 @@ const router = createBrowserRouter(
       <Route path="*" element={<Error404Page />} />
       <Route path="/loginPage" element={<LoginPage />} />
       <Route path="/register" element={<Register />} />
+
+      <Route path="/sessions" element={<Sessions />} />
+
+      <Route path="/exercises" element={<ExercisePage />} />
+
     </Route>
   )
 );
