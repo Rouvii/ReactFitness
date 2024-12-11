@@ -34,6 +34,18 @@ function apiFacade() {
       });
   };
 
+const register = (user, password) => {
+    const options = makeOptions("POST", false, {
+      username: user,
+      password: password,
+    });
+    return fetch(URL + "/auth/register", options)
+      .then(handleHttpErrors)
+      .then((res) => {
+        setToken(res.token);
+    });
+  };
+
   const fetchData = () => {
     const options = makeOptions("GET", true); // True adds the token
     return fetch(URL + "/sessions", options).then(handleHttpErrors);
@@ -60,6 +72,7 @@ function apiFacade() {
     login,
     logout,
     fetchData,
+    register,
   };
 }
 

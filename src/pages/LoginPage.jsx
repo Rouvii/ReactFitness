@@ -5,6 +5,8 @@ import facade from "../util/apiFacade";
 //Components
 import LogIn from "../components/loginComp/LogIn";
 import LoggedIn from "../components/loginComp/LoggedIn";
+import Register from "./Register";
+import { NavLink } from "react-router-dom";
 
 function LoginPage() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -26,8 +28,10 @@ function LoginPage() {
         <div>
           <LoggedIn />
           <button onClick={logout}>Logout</button>
+          
         </div>
       )}
+  <NavLink to="/register">Register</NavLink>
     </div>
   );
 }
