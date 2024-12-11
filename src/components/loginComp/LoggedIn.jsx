@@ -4,7 +4,6 @@ function LoggedIn({ LoggedIn }) {
   const [dataFromServer, setDataFromServer] = useState("Loading...");
 
   useEffect(() => {
-    /*TODO*/
     facade.fetchData().then((data) => setDataFromServer(data.msg));
   }, []);
 

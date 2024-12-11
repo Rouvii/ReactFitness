@@ -6,11 +6,15 @@ function RootLayout() {
     <RootContainer>
       <Header>
         <Nav>
-          <Title>BIG MUSCLES NIGGER GET BIG HERE</Title>
+          <Title>FITNESS APP</Title>
           <NavLinks>
             <StyledNavLink to="/">Home</StyledNavLink>
             <StyledNavLink to="/loginPage">Login Page</StyledNavLink>
+
+            <StyledNavLink to="/sessions">Sessions</StyledNavLink>
+
             <StyledNavLink to="/exercises">Exercises</StyledNavLink>
+
           </NavLinks>
         </Nav>
       </Header>
