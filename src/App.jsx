@@ -8,6 +8,7 @@ import RootLayout from "./layouts/RootLayout";
 import Home from "./pages/Home"; // Ensure correct file path and naming
 import Error404Page from "./pages/Error404Page";
 import LoginPage from "./pages/LoginPage";
+import Register from "./pages/Register";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,6 +16,7 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="*" element={<Error404Page />} />
       <Route path="/loginPage" element={<LoginPage />} />
+      <Route path="/register" element={<Register />} />
     </Route>
   )
 );
