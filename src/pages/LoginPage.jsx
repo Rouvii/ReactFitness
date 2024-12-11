@@ -18,8 +18,8 @@ function LoginPage() {
   };
   const login = (user, pass) => {
     facade.login(user, pass).then(() => {
-      setLoggedIn(true)
-      navigate("/home");
+      setLoggedIn(true);
+      navigate("/loggedInHome");
     });
     console.log(user, pass);
   };
@@ -32,10 +32,9 @@ function LoginPage() {
         <div>
           <LoggedIn />
           <button onClick={logout}>Logout</button>
-          
         </div>
       )}
-  <NavLink to="/register">Register</NavLink>
+      <NavLink to="/register">Register</NavLink>
     </div>
   );
 }
