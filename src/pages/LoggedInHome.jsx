@@ -1,17 +1,15 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export default function LoggenInHome() {
   return (
     <HomeContainer>
-      <TopImage>
-        
-      </TopImage>
-      <LowerPart>
-       
-      </LowerPart>
+      <TopImage></TopImage>
+      <LowerPart></LowerPart>
     </HomeContainer>
   );
-} 
+}
+
+// Styled Components
 
 // Styled Components
 
@@ -46,10 +44,6 @@ const LowerPart = styled.div`
   width: 100%;
   max-width: 1000px;
 `;
-
-
-
-
 
 const StyledLink = styled.a`
   text-decoration: none;
