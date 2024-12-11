@@ -6,17 +6,21 @@ import facade from "../util/apiFacade";
 import LogIn from "../components/loginComp/LogIn";
 import LoggedIn from "../components/loginComp/LoggedIn";
 import Register from "./Register";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   const logout = () => {
     facade.logout();
     setLoggedIn(false);
   };
   const login = (user, pass) => {
-    facade.login(user, pass).then(() => setLoggedIn(true));
+    facade.login(user, pass).then(() => {
+      setLoggedIn(true)
+      navigate("/home");
+    });
     console.log(user, pass);
   };
 
