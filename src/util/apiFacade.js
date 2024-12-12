@@ -73,6 +73,7 @@ const register = (user, password) => {
     logout,
     fetchData,
     register,
+    getToken,
   };
 }
 
