@@ -42,7 +42,7 @@ const RootContainer = styled.div`
 `;
 
 const Header = styled.header`
-  background-color: rgba(70, 89, 96, 0.8); /* Semi-transparent header background */
+  background-color: rgba(70, 89, 96, 0.8);
   color: white;
   padding: 20px;
 `;

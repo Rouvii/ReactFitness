@@ -16,40 +16,27 @@ export default function Home() {
 // Styled Components
 
 const HomeContainer = styled.div`
-    display: grid;
-  grid-template-rows: 80px auto 1fr; auto  50px;
+  display: grid;
+  grid-template-rows: 80px auto 1fr auto 50px;
   grid-template-columns: 1fr 4fr 1fr;
   height: 100vh;
   grid-template-areas:
-  "header header header"
-  "left-aside banner right-aside"
-  "left-aside main right-aside"
-  "left-aside low-content right-aside";
-  "footer footer footer";
-  grid-gap: 10px; padding: 10px;
-  font-weight: 600; font-size: 20px;
+    "header header header"
+    "left-aside banner right-aside"
+    "left-aside main right-aside"
+    "left-aside low-content right-aside"
+    "footer footer footer"
+  grid-gap: 10px;
+  padding: 10px;
 `;
 
 const TopImage = styled.div`
-  width: 100%;
-  max-width: 1000px;
-  margin-bottom: 20px;
-  img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-  }
+  grid-area: banner;
 `;
 
 const LowerPart = styled.div`
-  display: flex;
-  width: 100%;
-  max-width: 1000px;
+  grid-area: low-content;
 `;
-
-
-
-
 
 const StyledLink = styled.a`
   text-decoration: none;
@@ -74,4 +61,3 @@ const MainContent = styled.div`
   font-size: 24px;
   color: #333;
 `;
-//ye
