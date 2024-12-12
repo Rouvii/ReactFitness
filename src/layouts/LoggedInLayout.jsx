@@ -8,8 +8,11 @@ function RootLayout() {
         <Nav>
           <Title>BIG MUSCLES GET BIG HERE</Title>
           <NavLinks>
-            <StyledNavLink to="/loggedInHome">Home</StyledNavLink>
+            <StyledNavLink to="loggedInHome">Home</StyledNavLink>
             <StyledNavLink to="/">User</StyledNavLink>
+            <StyledNavLink to="startsession">Start Your Session</StyledNavLink>
+            <StyledNavLink to="sessions">Sessions</StyledNavLink>
+            <StyledNavLink to="exercises">Exercises</StyledNavLink>
           </NavLinks>
         </Nav>
       </Header>

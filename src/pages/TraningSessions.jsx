@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useEffect } from "react";
 // Components
 import Session from "../components/Session";
 import LogIn from "../components/loginComp/LogIn";
@@ -20,6 +21,14 @@ function Sessions() {
         setLoggedIn(false);
         setUser(null);
     };
+
+    useEffect(() => {
+        const token = facade.getToken();
+        if (token) {
+          setLoggedIn(true);
+          setUser({ username: token }); // Assuming the token contains the username
+        }
+      }, []);
 
     return (
         <div>

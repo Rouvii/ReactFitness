@@ -9,12 +9,16 @@ import Home from "./pages/Home"; // Ensure correct file path and naming
 import Error404Page from "./pages/Error404Page";
 import LoginPage from "./pages/LoginPage";
 import Register from "./pages/Register";
-import Sessions from "./pages/Sessions";
+import Sessions from "./pages/TraningSessions";
 import ExercisePage from "./pages/ExercisePage";
 import LoggedInLayout from "./layouts/LoggedInLayout";
 import LoggedInHome from "./pages/LoggedInHome";
+
+import StartYourSession from "./pages/StartYourSession";
+
 import { Navigate } from "react-router-dom";
 import facade from "./util/apiFacade";
+
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = () => {
@@ -32,8 +36,6 @@ const router = createBrowserRouter(
         <Route path="*" element={<Error404Page />} />
         <Route path="/loginPage" element={<LoginPage />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/sessions" element={<Sessions />} />
-        <Route path="/exercises" element={<ExercisePage />} />
       </Route>
 
       
@@ -43,7 +45,9 @@ const router = createBrowserRouter(
         </ProtectedRoute>
         }>
         <Route index element={<LoggedInHome />} />
-        
+        <Route path="sessions" element={<Sessions />} />
+        <Route path="exercises" element={<ExercisePage />} />
+        <Route path="startsession" element={<StartYourSession />} />
       </Route>
     </>
   )
