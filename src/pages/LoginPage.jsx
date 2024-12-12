@@ -19,7 +19,7 @@ function LoginPage() {
   const login = (user, pass) => {
     facade.login(user, pass).then(() => {
       setLoggedIn(true);
-      navigate("/loggedInHome");
+      navigate("/loggedInHome", {state: {username: user}});
     });
     console.log(user, pass);
   };

@@ -1,12 +1,21 @@
 import { NavLink, Outlet } from "react-router-dom";
 import styled from "styled-components";
+import { useLocation } from 'react-router-dom';
 
 function RootLayout() {
+
+  const location = useLocation();
+  const { username } = location.state || { username: 'Guest' };
   return (
     <RootContainer>
       <Header>
         <Nav>
-          <Title>BIG MUSCLES GET BIG HERE</Title>
+          <Title>BIG MUSCLES GET BIG HERE
+            <br />
+           <WelcomeMessage>Welcome, {username}!</WelcomeMessage>
+
+          </Title>
+          
           <NavLinks>
             <StyledNavLink to="loggedInHome">Home</StyledNavLink>
             <StyledNavLink to="/">User</StyledNavLink>
@@ -86,4 +95,10 @@ const Main = styled.main`
   border-radius: 8px;
   max-width: 1200px;
   margin: auto;
+`;
+const WelcomeMessage = styled.div`
+  grid-area: header;
+  font-size: 24px;
+  text-align: left; /* Align text to the left */
+  padding: 5px;
 `;
