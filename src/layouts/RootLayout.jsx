@@ -10,7 +10,7 @@ function RootLayout() {
           <NavLinks>
             <StyledNavLink to="/">Home</StyledNavLink>
             <StyledNavLink to="/loginPage">Login Page</StyledNavLink>
-
+            <StyledNavLink to="/startsession">Start Your Session</StyledNavLink>
             <StyledNavLink to="/sessions">Sessions</StyledNavLink>
 
             <StyledNavLink to="/exercises">Exercises</StyledNavLink>

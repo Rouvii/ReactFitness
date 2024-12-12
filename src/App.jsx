@@ -13,6 +13,7 @@ import Sessions from "./pages/Sessions";
 import ExercisePage from "./pages/ExercisePage";
 import LoggedInLayout from "./layouts/LoggedInLayout";
 import LoggedInHome from "./pages/LoggedInHome";
+import StartYourSession from "./pages/StartYourSession";
 
 
 const router = createBrowserRouter(
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
         <Route path="/register" element={<Register />} />
         <Route path="/sessions" element={<Sessions />} />
         <Route path="/exercises" element={<ExercisePage />} />
+        <Route path="/startsession" element={<StartYourSession />} />
       </Route>
 
       <Route path="/loggedInHome" element={<LoggedInLayout />}>
