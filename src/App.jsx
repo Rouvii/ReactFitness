@@ -13,8 +13,20 @@ import Sessions from "./pages/Sessions";
 import ExercisePage from "./pages/ExercisePage";
 import LoggedInLayout from "./layouts/LoggedInLayout";
 import LoggedInHome from "./pages/LoggedInHome";
+
 import StartYourSession from "./pages/StartYourSession";
 
+import { Navigate } from "react-router-dom";
+import facade from "./util/apiFacade";
+
+
+const ProtectedRoute = ({ children }) => {
+  const isAuthenticated = () => {
+    return facade.getToken() !== null; // Brug getToken til at tjekke autentificering
+  };
+
+  return isAuthenticated() ? children : <Navigate to="/loginPage" />;
+};
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,7 +41,12 @@ const router = createBrowserRouter(
         <Route path="/startsession" element={<StartYourSession />} />
       </Route>
 
-      <Route path="/loggedInHome" element={<LoggedInLayout />}>
+      
+      <Route path="/loggedInHome" element={
+        <ProtectedRoute>
+        <LoggedInLayout />
+        </ProtectedRoute>
+        }>
         <Route index element={<LoggedInHome />} />
         
       </Route>
