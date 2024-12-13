@@ -6,7 +6,7 @@ function Session({ user }) {
   const [sessions, setSessions] = useState([]);
   const [error, setError] = useState(null);
   const location = useLocation();
-  const { username } = location.state || { username: "" };
+ // const { username } = location.state || { username: "" };
 
   useEffect(() => {
     if (username) {
