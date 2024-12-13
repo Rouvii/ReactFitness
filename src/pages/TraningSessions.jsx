@@ -1,9 +1,28 @@
 import React, { useEffect, useState } from 'react';
 
+
 function TraningSessions() {
     const { user } = useUser();
     const [sessions, setSessions] = useState([]);
     const [error, setError] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false);
+ 
+
+
+  
+
+  const login = (username, password) => {
+    facade.login(username, password).then(() => {
+      setLoggedIn(true);
+      setUser({ username }); // Assuming the API returns the logged-in username
+    });
+  };
+
+  const logout = () => {
+    facade.logout();
+    setLoggedIn(false);
+    setUser(null);
+  };
 
     useEffect(() => {
         if (user) {
@@ -29,6 +48,13 @@ function TraningSessions() {
     if (error) {
         return <p>Error fetching sessions: {error}</p>;
     }
+  useEffect(() => {
+    const token = facade.getToken();
+    if (token) {
+      setLoggedIn(true);
+      setUser({ username: token }); // Assuming the token contains the username
+    }
+  }, []);
 
     return (
         <div>
@@ -41,6 +67,16 @@ function TraningSessions() {
             </ul>
         </div>
     );
+  return (
+    <div>
+     
+        <div>
+          <Session user={user} />
+          <button onClick={logout}>Logout</button>
+        </div>
+    
+    </div>
+  );
 }
 
 export default TraningSessions;
