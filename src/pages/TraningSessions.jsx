@@ -41,18 +41,39 @@ function TraningSessions() {
     }
   }, []);
 
-    return (
-        <div>
-            <h1>{user.username}'s Training Sessions</h1>
-            <ul>
-                {sessions.map((session) => (
-                    <li key={session.id}>Session #{session.id}</li>
-                    
-                ))}
-            </ul>
-        </div>
-    );
- 
+  return (
+    <div>
+      <h1>{user.username}'s Training Sessions</h1>
+      {sessions.length === 0 ? (
+        <p>No sessions found.</p>
+      ) : (
+        sessions.map((session) => (
+          <div key={session.id}>
+            <h2>Session #{session.id}</h2>
+            {session.exercises && session.exercises.length > 0 ? (
+              session.exercises.map((exercise) => (
+                <div key={exercise.id}>
+                  <h3>{exercise.name} ({exercise.muscleGroup})</h3>
+                  <p>{exercise.description}</p>
+                  <h4>Sets:</h4>
+                  <ul>
+                    {exercise.sets.map((set) => (
+                      <li key={set.id}>
+                        Set {set.id}: {set.reps} reps, {set.weight} kg
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))
+            ) : (
+              <p>No exercises in this session.</p>
+            )}
+          </div>
+        ))
+      )}
+    </div>
+  );
+
 }
 
 export default TraningSessions;
