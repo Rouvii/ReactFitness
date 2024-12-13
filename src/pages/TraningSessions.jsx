@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-
+import facade from '../util/apiFacade';
 
 function TraningSessions() {
-    const { user } = useUser();
+    const user = JSON.parse(localStorage.getItem('user'));
     const [sessions, setSessions] = useState([]);
     const [error, setError] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -10,20 +10,6 @@ function TraningSessions() {
 
 
   
-
-  const login = (username, password) => {
-    facade.login(username, password).then(() => {
-      setLoggedIn(true);
-      setUser({ username }); // Assuming the API returns the logged-in username
-    });
-  };
-
-  const logout = () => {
-    facade.logout();
-    setLoggedIn(false);
-    setUser(null);
-  };
-
     useEffect(() => {
         if (user) {
             fetch('https://rouvii.dk/api/sessions')
@@ -52,7 +38,6 @@ function TraningSessions() {
     const token = facade.getToken();
     if (token) {
       setLoggedIn(true);
-      setUser({ username: token }); // Assuming the token contains the username
     }
   }, []);
 
@@ -67,16 +52,7 @@ function TraningSessions() {
             </ul>
         </div>
     );
-  return (
-    <div>
-     
-        <div>
-          <Session user={user} />
-          <button onClick={logout}>Logout</button>
-        </div>
-    
-    </div>
-  );
+ 
 }
 
 export default TraningSessions;

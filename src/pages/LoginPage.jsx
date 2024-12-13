@@ -20,8 +20,11 @@ function LoginPage() {
 
   const login = (user, pass) => {
     facade.login(user, pass).then(() => {
+      localStorage.setItem("token", facade.getToken());
+      localStorage.setItem("user", JSON.stringify({ username: user }));
       setLoggedIn(true);
       navigate("/loggedInHome", {state: {username: user}});
+
     });
     console.log(user, pass);
   };
