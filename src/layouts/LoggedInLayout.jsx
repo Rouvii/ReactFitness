@@ -1,23 +1,30 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { useLocation } from 'react-router-dom';
+import { useEffect, useContext } from "react";
+import { UserContext } from "../components/UserContext";
 
-function RootLayout() {
-
+function LoggedInLayout() {
+  const { username, setUsername } = useContext(UserContext);
   const location = useLocation();
-  const { username } = location.state || { username: 'Guest' };
+  const locationState = location.state || { username: "" };
+
+  useEffect(() => {
+    if (locationState.username) {
+      setUsername(locationState.username);
+    }
+  }, [locationState.username, setUsername]);
+
   return (
     <RootContainer>
       <Header>
         <Nav>
-          <Title>BIG MUSCLES GET BIG HERE
+          <Title>
+            BIG MUSCLES GET BIG HERE
             <br />
-           <WelcomeMessage>Welcome, {username}!</WelcomeMessage>
-
+            <WelcomeMessage>Welcome, {username}!</WelcomeMessage>
           </Title>
-          
           <NavLinks>
-            <StyledNavLink to="loggedInHome">Home</StyledNavLink>
+            <StyledNavLink to="/loggedInHome">Home</StyledNavLink>
             <StyledNavLink to="/">User</StyledNavLink>
             <StyledNavLink to="startsession">Start Your Session</StyledNavLink>
             <StyledNavLink to="sessions">Sessions</StyledNavLink>
@@ -32,31 +39,24 @@ function RootLayout() {
   );
 }
 
-export default RootLayout;
-
-// Styled Components
+export default LoggedInLayout;
 
 const RootContainer = styled.div`
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url("/src/assets/image.png");
-  background-size: center;
-  background-repeat: no-repeat;
-  background-position: center;
+  background-image: url('/src/assets/image.png'); 
+  background-size: center; 
+  background-repeat: no-repeat; 
+  background-position: center; 
   background-color: #e0dcdc;
-  min-height: 100vh;
+  min-height: 100vh; 
 `;
 
 const Header = styled.header`
-  background-color: rgba(
-    70,
-    89,
-    96,
-    0.8
-  ); /* Semi-transparent header background */
-  color: white;
+  background-color: #282c34;
   padding: 20px;
+  color: white;
 `;
 
 const Nav = styled.nav`
@@ -66,39 +66,29 @@ const Nav = styled.nav`
 `;
 
 const Title = styled.h1`
-  font-size: 24px;
-  margin: 0;
+  font-size: 1.5em;
+`;
+
+const WelcomeMessage = styled.span`
+  font-size: 1.2em;
+  color: #61dafb;
 `;
 
 const NavLinks = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 10px;
 `;
 
 const StyledNavLink = styled(NavLink)`
   color: white;
   text-decoration: none;
-  font-size: 18px;
-  transition: color 0.3s ease;
 
   &.active {
-    color: #4c5c63; /* Active link color */
-  }
-
-  &:hover {
-    color: #4c5c63;
+    font-weight: bold;
   }
 `;
 
 const Main = styled.main`
+  flex: 1;
   padding: 20px;
-  border-radius: 8px;
-  max-width: 1200px;
-  margin: auto;
-`;
-const WelcomeMessage = styled.div`
-  grid-area: header;
-  font-size: 24px;
-  text-align: left; /* Align text to the left */
-  padding: 5px;
 `;
