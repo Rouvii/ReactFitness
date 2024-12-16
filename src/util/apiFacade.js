@@ -34,7 +34,7 @@ function apiFacade() {
       });
   };
 
-const register = (user, password) => {
+  const register = (user, password) => {
     const options = makeOptions("POST", false, {
       username: user,
       password: password,
@@ -43,7 +43,7 @@ const register = (user, password) => {
       .then(handleHttpErrors)
       .then((res) => {
         setToken(res.token);
-    });
+      });
   };
 
   const fetchData = () => {
@@ -68,12 +68,41 @@ const register = (user, password) => {
     return opts;
   };
 
+  const getUserRoles = () => {
+    const token = getToken();
+    if (token != null) {
+      const payloadBase64 = getToken().split(".")[1];
+      const decodedClaims = JSON.parse(window.atob(payloadBase64));
+      const roles = decodedClaims.roles;
+      return roles;
+    } else return "";
+  };
+
+  
+  const getUsername = () => {
+    const token = getToken();
+    if (token != null) {
+      const payloadBase64 = getToken().split(".")[1];
+      const decodedClaims = JSON.parse(window.atob(payloadBase64));
+      const name = decodedClaims.sub;
+      return name;
+    } else return "";
+  };
+
+  const hasUserAccess = (neededRole, loggedIn) => {
+    const roles = getUserRoles().split(",");
+    return loggedIn && roles.includes(neededRole);
+  };
+
   return {
     login,
     logout,
     fetchData,
     register,
     getToken,
+    getUserRoles,
+    hasUserAccess,
+    getUsername,
   };
 }
 
