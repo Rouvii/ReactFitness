@@ -7,7 +7,10 @@ const API_URL = "https://rouvii.dk/api/exercises"; // Your API URL
 function ExercisePage() {
   const [exercises, setExercises] = useState([]);
   const [error, setError] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(""); // State to hold the selected category
+  const [categories, setCategories] = useState([]); // State to hold the list of categories
 
+  // Fetch exercises and categories on mount
   useEffect(() => {
     const fetchExercises = async () => {
       try {
@@ -35,6 +38,12 @@ function ExercisePage() {
 
         const data = await response.json();
         setExercises(data); // Set exercises if the request is successful
+
+        // Get unique categories from exercises
+        const uniqueCategories = [
+          ...new Set(data.map((exercise) => exercise.muscleGroup)),
+        ];
+        setCategories(uniqueCategories); // Set unique categories
       } catch (err) {
         console.error("Error:", err.message);
         setError(err.message); // Display error if any
@@ -44,6 +53,11 @@ function ExercisePage() {
     fetchExercises();
   }, []); // This will run only once when the component mounts
 
+  // Filter exercises based on selected category
+  const filteredExercises = selectedCategory
+    ? exercises.filter((exercise) => exercise.muscleGroup === selectedCategory)
+    : exercises;
+
   if (error) {
     return <ErrorMessage>Failed to load exercises: {error}</ErrorMessage>;
   }
@@ -51,11 +65,29 @@ function ExercisePage() {
   return (
     <PageContainer>
       <Title>All Exercises</Title>
+
+      {/* Category Filter */}
+      <FilterContainer>
+        <label htmlFor="category">Filter by Muscle Group: </label>
+        <select
+          id="category"
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
+          <option value="">All</option>
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+      </FilterContainer>
+
       <ExerciseList>
-        {exercises.length === 0 ? (
+        {filteredExercises.length === 0 ? (
           <LoadingMessage>Loading exercises...</LoadingMessage>
         ) : (
-          exercises.map((exercise) => (
+          filteredExercises.map((exercise) => (
             <ExerciseCard key={exercise.id}>
               <h2>{exercise.name}</h2>
               <p>
@@ -84,6 +116,24 @@ const PageContainer = styled.div`
 const Title = styled.h1`
   text-align: center;
   color: #4c5c63;
+`;
+
+const FilterContainer = styled.div`
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  label {
+    margin-right: 10px;
+    font-weight: bold;
+  }
+
+  select {
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+  }
 `;
 
 const ExerciseList = styled.div`
