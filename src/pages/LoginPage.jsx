@@ -19,17 +19,17 @@ function LoginPage() {
   };
 
   const login = (user, pass) => {
-    facade
-      .login(user, pass)
-      .then(() => {
-        localStorage.setItem("token", facade.getToken());
-        localStorage.setItem("user", JSON.stringify({ username: user }));
-        setLoggedIn(true);
-        navigate("/loggedInHome", { state: { username: user } });
-      })
-      .catch((error) => {
-        setErrorMessage("User does not exist or incorrect password.");
-      });
+    facade.login(user, pass).then(() => {
+      const roles = facade.getUserRoles().split(",");
+      localStorage.setItem("token", facade.getToken());
+      localStorage.setItem("user", JSON.stringify({ username: user }));
+      setLoggedIn(true);
+
+      if (roles.includes("ADMIN")) {
+        navigate("/admin", { state: { username: user } });
+      } else navigate("/loggedInHome", { state: { username: user } });
+    });
+    console.log(user, pass);
   };
 
   return (
@@ -47,7 +47,8 @@ function LoginPage() {
           </LoggedInContainer>
         )}
         <Footer>
-          Don’t have an account? <StyledNavLink to="/register">Register</StyledNavLink>
+          Don’t have an account?{" "}
+          <StyledNavLink to="/register">Register</StyledNavLink>
         </Footer>
       </Card>
     </Container>

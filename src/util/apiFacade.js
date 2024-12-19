@@ -103,6 +103,11 @@ function apiFacade() {
     getUserRoles,
     hasUserAccess,
     getUsername,
+    loggedIn,
+    getUsername,
+    getUserRoles,
+    hasUserAccess,
+    makeOptions,
   };
 }
 
