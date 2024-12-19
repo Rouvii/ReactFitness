@@ -10,7 +10,6 @@ function RootLayout() {
           <NavLinks>
             <StyledNavLink to="/">Home</StyledNavLink>
             <StyledNavLink to="/loginPage">Login Page</StyledNavLink>
-
           </NavLinks>
         </Nav>
       </Header>
@@ -29,18 +28,18 @@ const RootContainer = styled.div`
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url('/src/assets/image.png'); 
-  background-size: center; 
-  background-repeat: no-repeat; 
-  background-position: center; 
+  background-image: url("/src/assets/image.png");
+  background-size: center;
+  background-repeat: no-repeat;
+  background-position: center;
   background-color: #e0dcdc;
-  min-height: 100vh; 
+  min-height: 100vh;
 `;
 
 const Header = styled.header`
-  background-color: rgba(70, 89, 96, 0.8);
-  color: white;
+  background-color: #282c34;
   padding: 20px;
+  color: white;
 `;
 
 const Nav = styled.nav`
@@ -66,11 +65,11 @@ const StyledNavLink = styled(NavLink)`
   transition: color 0.3s ease;
 
   &.active {
-    color: #4c5c63; /* Active link color */
+    color: #white;
   }
 
   &:hover {
-    color: #4c5c63;
+    color: #61dafb;
   }
 `;
 

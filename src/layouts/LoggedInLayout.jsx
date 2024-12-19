@@ -1,11 +1,13 @@
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useEffect, useContext } from "react";
 import { UserContext } from "../components/UserContext";
+import apiFacade from "../util/apiFacade";
 
 function LoggedInLayout() {
   const { username, setUsername } = useContext(UserContext);
   const location = useLocation();
+  const navigate = useNavigate();
   const locationState = location.state || { username: "" };
 
   useEffect(() => {
@@ -13,6 +15,12 @@ function LoggedInLayout() {
       setUsername(locationState.username);
     }
   }, [locationState.username, setUsername]);
+
+  const handleLogout = () => {
+    apiFacade.logout();
+    setUsername("");
+    navigate("/");
+  };
 
   return (
     <RootContainer>
@@ -29,6 +37,7 @@ function LoggedInLayout() {
             <StyledNavLink to="startsession">Start Your Session</StyledNavLink>
             <StyledNavLink to="sessions">Sessions</StyledNavLink>
             <StyledNavLink to="exercises">Exercises</StyledNavLink>
+            <LogoutLink onClick={handleLogout}>Logout</LogoutLink>
           </NavLinks>
         </Nav>
       </Header>
@@ -45,12 +54,12 @@ const RootContainer = styled.div`
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url('/src/assets/image.png'); 
-  background-size: center; 
-  background-repeat: no-repeat; 
-  background-position: center; 
+  background-image: url("/src/assets/image.png");
+  background-size: center;
+  background-repeat: no-repeat;
+  background-position: center;
   background-color: #e0dcdc;
-  min-height: 100vh; 
+  min-height: 100vh;
 `;
 
 const Header = styled.header`
@@ -85,6 +94,19 @@ const StyledNavLink = styled(NavLink)`
 
   &.active {
     font-weight: bold;
+  }
+  &:hover {
+    color: #61dafb;
+  }
+`;
+
+const LogoutLink = styled.span`
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    color: #61dafb;
   }
 `;
 
