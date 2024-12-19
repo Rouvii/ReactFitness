@@ -1,52 +1,48 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import facade from "../util/apiFacade"; // Make sure the apiFacade is properly configured
 
-const API_URL = "https://rouvii.dk/api/exercises"; // Replace with your actual API URL
-
-// Enum for muscle groups
-const MuscleGroups = {
-  ALL: "All",
-  BICEPS: "BICEPS",
-  TRICEPS: "TRICEPS",
-  CHEST: "CHEST",
-  BACK: "BACK",
-  LEGS: "LEGS",
-  SHOULDERS: "SHOULDERS",
-  ABS: "ABS",
-  CALVES: "CALVES",
-  FOREARMS: "FOREARMS",
-};
+const API_URL = "https://rouvii.dk/api/exercises"; // Your API URL
 
 function ExercisePage() {
   const [exercises, setExercises] = useState([]);
   const [error, setError] = useState(null);
-  const [filter, setFilter] = useState(MuscleGroups.ALL);
 
   useEffect(() => {
-    // Fetch exercises from API
     const fetchExercises = async () => {
       try {
-        const response = await fetch(API_URL);
+        const token = facade.getToken(); // Retrieve the token from apiFacade
+        if (!token) {
+          throw new Error("No token found. Please login first.");
+        }
+
+        // Log token to check if it's correct
+        console.log("Token:", token);
+
+        const response = await fetch(API_URL, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+          credentials: "include", // If you're sending cookies
+        });
+
+        // Check if response is OK
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+
         const data = await response.json();
-        setExercises(data);
+        setExercises(data); // Set exercises if the request is successful
       } catch (err) {
-        setError(err.message);
+        console.error("Error:", err.message);
+        setError(err.message); // Display error if any
       }
     };
 
     fetchExercises();
-  }, []);
-
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value);
-  };
-
-  const filteredExercises = exercises.filter((exercise) => {
-    return filter === MuscleGroups.ALL || exercise.muscleGroup === filter;
-  });
+  }, []); // This will run only once when the component mounts
 
   if (error) {
     return <ErrorMessage>Failed to load exercises: {error}</ErrorMessage>;
@@ -55,25 +51,11 @@ function ExercisePage() {
   return (
     <PageContainer>
       <Title>All Exercises</Title>
-      <FilterContainer>
-        <label htmlFor="muscleGroupFilter">Filter by Muscle Group:</label>
-        <FilterSelect
-          id="muscleGroupFilter"
-          value={filter}
-          onChange={handleFilterChange}
-        >
-          {Object.values(MuscleGroups).map((group) => (
-            <option key={group} value={group}>
-              {group}
-            </option>
-          ))}
-        </FilterSelect>
-      </FilterContainer>
       <ExerciseList>
-        {filteredExercises.length === 0 ? (
-          <LoadingMessage>No exercises found for this filter.</LoadingMessage>
+        {exercises.length === 0 ? (
+          <LoadingMessage>Loading exercises...</LoadingMessage>
         ) : (
-          filteredExercises.map((exercise) => (
+          exercises.map((exercise) => (
             <ExerciseCard key={exercise.id}>
               <h2>{exercise.name}</h2>
               <p>
@@ -102,25 +84,6 @@ const PageContainer = styled.div`
 const Title = styled.h1`
   text-align: center;
   color: #4c5c63;
-`;
-
-const FilterContainer = styled.div`
-  margin: 20px 0;
-  text-align: center;
-
-  label {
-    margin-right: 10px;
-    font-weight: bold;
-    color: #4c5c63;
-  }
-`;
-
-const FilterSelect = styled.select`
-  padding: 5px 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #ffffff;
-  font-size: 16px;
 `;
 
 const ExerciseList = styled.div`
