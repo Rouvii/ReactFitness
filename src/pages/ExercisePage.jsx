@@ -1,52 +1,62 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import facade from "../util/apiFacade"; // Make sure the apiFacade is properly configured
 
-const API_URL = "https://rouvii.dk/api/exercises"; // Replace with your actual API URL
-
-// Enum for muscle groups
-const MuscleGroups = {
-  ALL: "All",
-  BICEPS: "BICEPS",
-  TRICEPS: "TRICEPS",
-  CHEST: "CHEST",
-  BACK: "BACK",
-  LEGS: "LEGS",
-  SHOULDERS: "SHOULDERS",
-  ABS: "ABS",
-  CALVES: "CALVES",
-  FOREARMS: "FOREARMS",
-};
+const API_URL = "https://rouvii.dk/api/exercises"; // Your API URL
 
 function ExercisePage() {
   const [exercises, setExercises] = useState([]);
   const [error, setError] = useState(null);
-  const [filter, setFilter] = useState(MuscleGroups.ALL);
+  const [selectedCategory, setSelectedCategory] = useState(""); // State to hold the selected category
+  const [categories, setCategories] = useState([]); // State to hold the list of categories
 
+  // Fetch exercises and categories on mount
   useEffect(() => {
-    // Fetch exercises from API
     const fetchExercises = async () => {
       try {
-        const response = await fetch(API_URL);
+        const token = facade.getToken(); // Retrieve the token from apiFacade
+        if (!token) {
+          throw new Error("No token found. Please login first.");
+        }
+
+        // Log token to check if it's correct
+        console.log("Token:", token);
+
+        const response = await fetch(API_URL, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+          credentials: "include", // If you're sending cookies
+        });
+
+        // Check if response is OK
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+
         const data = await response.json();
-        setExercises(data);
+        setExercises(data); // Set exercises if the request is successful
+
+        // Get unique categories from exercises
+        const uniqueCategories = [
+          ...new Set(data.map((exercise) => exercise.muscleGroup)),
+        ];
+        setCategories(uniqueCategories); // Set unique categories
       } catch (err) {
-        setError(err.message);
+        console.error("Error:", err.message);
+        setError(err.message); // Display error if any
       }
     };
 
     fetchExercises();
-  }, []);
+  }, []); // This will run only once when the component mounts
 
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value);
-  };
-
-  const filteredExercises = exercises.filter((exercise) => {
-    return filter === MuscleGroups.ALL || exercise.muscleGroup === filter;
-  });
+  // Filter exercises based on selected category
+  const filteredExercises = selectedCategory
+    ? exercises.filter((exercise) => exercise.muscleGroup === selectedCategory)
+    : exercises;
 
   if (error) {
     return <ErrorMessage>Failed to load exercises: {error}</ErrorMessage>;
@@ -55,23 +65,27 @@ function ExercisePage() {
   return (
     <PageContainer>
       <Title>All Exercises</Title>
+
+      {/* Category Filter */}
       <FilterContainer>
-        <label htmlFor="muscleGroupFilter">Filter by Muscle Group:</label>
-        <FilterSelect
-          id="muscleGroupFilter"
-          value={filter}
-          onChange={handleFilterChange}
+        <label htmlFor="category">Filter by Muscle Group: </label>
+        <select
+          id="category"
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
         >
-          {Object.values(MuscleGroups).map((group) => (
-            <option key={group} value={group}>
-              {group}
+          <option value="">All</option>
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
             </option>
           ))}
-        </FilterSelect>
+        </select>
       </FilterContainer>
+
       <ExerciseList>
         {filteredExercises.length === 0 ? (
-          <LoadingMessage>No exercises found for this filter.</LoadingMessage>
+          <LoadingMessage>Loading exercises...</LoadingMessage>
         ) : (
           filteredExercises.map((exercise) => (
             <ExerciseCard key={exercise.id}>
@@ -105,22 +119,21 @@ const Title = styled.h1`
 `;
 
 const FilterContainer = styled.div`
-  margin: 20px 0;
-  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   label {
     margin-right: 10px;
     font-weight: bold;
-    color: #4c5c63;
   }
-`;
 
-const FilterSelect = styled.select`
-  padding: 5px 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #ffffff;
-  font-size: 16px;
+  select {
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+  }
 `;
 
 const ExerciseList = styled.div`

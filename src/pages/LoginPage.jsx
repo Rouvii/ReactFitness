@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import styled from "styled-components";
-
+        import { NavLink, useNavigate } from "react-router-dom";
+        import styled from "styled-components";
 // Utils
-import facade from "../util/apiFacade";
+        import facade from "../util/apiFacade";
 
 // Components
-import LogIn from "../components/loginComp/LogIn";
-import LoggedIn from "../components/loginComp/LoggedIn";
+        import LogIn from "../components/loginComp/LogIn";
+        import LoggedIn from "../components/loginComp/LoggedIn";
 
 function LoginPage() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const navigate = useNavigate();
 
   const logout = () => {
@@ -38,6 +38,7 @@ function LoginPage() {
         {!loggedIn ? (
           <LogInContainer>
             <LogIn login={login} />
+            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
           </LogInContainer>
         ) : (
           <LoggedInContainer>
@@ -109,4 +110,10 @@ const StyledNavLink = styled(NavLink)`
   &:hover {
     text-decoration: underline;
   }
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
 `;
